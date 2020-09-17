@@ -9,12 +9,15 @@
 #import "ViewController.h"
 #import "TZImagePickerController.h"
 #import "RSKImageCropViewController.h"
+#import "CustomCollectionViewCell.h"
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 
-@interface ViewController ()<TZImagePickerControllerDelegate,RSKImageCropViewControllerDelegate>
+@interface ViewController ()<TZImagePickerControllerDelegate,RSKImageCropViewControllerDelegate,UICollectionViewDelegate,UICollectionViewDataSource>
 @property (nonatomic, strong) NSMutableArray *images;
 @property (nonatomic, strong) NSMutableArray *croppedImages;
+@property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, strong) UILongPressGestureRecognizer *longPress;
 
 @end
 
@@ -36,6 +39,89 @@
     button.layer.masksToBounds = YES;
     button.layer.cornerRadius = 8.f;
     [self.view addSubview:button];
+    
+    [self createCollectionView];
+}
+
+-(void)createCollectionView{
+    CGFloat width = (SCREEN_WIDTH - (50*2+2*10))/3;
+    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+    flowLayout.minimumLineSpacing = 10;
+    flowLayout.minimumInteritemSpacing = 10;
+    flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    flowLayout.itemSize = CGSizeMake(width, width);
+    UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(50, 280, SCREEN_WIDTH, width) collectionViewLayout:flowLayout];
+    self.collectionView = collectionView;
+    collectionView.delegate = self;
+    collectionView.dataSource = self;
+    [collectionView registerNib:[UINib nibWithNibName:@"CustomCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"CELL"];
+    collectionView.showsVerticalScrollIndicator = NO;
+    collectionView.showsHorizontalScrollIndicator = NO;
+    collectionView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:collectionView];
+    if (@available(iOS 11.0,*)) {
+        collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    } else {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
+    
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(lonePressMoving:)];
+    self.longPress = longPress;
+    [collectionView addGestureRecognizer:longPress];
+}
+
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    return 3;
+}
+
+
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    CustomCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CELL" forIndexPath:indexPath];
+    if (self.croppedImages.count > 0) {
+        UIImage *image = self.croppedImages[indexPath.row];
+        cell.imageView.image = image;
+    }
+    return cell;
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+}
+
+-(void)lonePressMoving:(UILongPressGestureRecognizer *)longPress{
+      switch (longPress.state) {
+            case UIGestureRecognizerStateBegan: {
+                {
+                    NSIndexPath *selectIndexPath = [self.collectionView indexPathForItemAtPoint:[longPress locationInView:self.collectionView]];
+                    // 找到当前的cell
+//                    CustomCollectionViewCell *cell = (CustomCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:selectIndexPath];
+                    // 定义cell的时候btn是隐藏的, 在这里设置为NO
+//                    [cell.btnDelete setHidden:NO];
+                    [self.collectionView beginInteractiveMovementForItemAtIndexPath:selectIndexPath];
+                }
+                break;
+            }
+            case UIGestureRecognizerStateChanged: {
+                    [self.collectionView updateInteractiveMovementTargetPosition:[longPress locationInView:longPress.view]];
+                break;
+            }
+            case UIGestureRecognizerStateEnded: {
+                    [self.collectionView endInteractiveMovement];
+                break;
+            }
+            default: [self.collectionView cancelInteractiveMovement];
+                break;
+        }
+}
+
+- (void)collectionView:(UICollectionView *)collectionView moveItemAtIndexPath:(nonnull NSIndexPath *)sourceIndexPath toIndexPath:(nonnull NSIndexPath *)destinationIndexPath
+{
+    NSIndexPath *selectIndexPath = [self.collectionView indexPathForItemAtPoint:[_longPress locationInView:self.collectionView]];
+    // 找到当前的cell
+//    CustomCollectionViewCell *cell = (CustomCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:selectIndexPath];
+//    [cell.btnDelete setHidden:YES];
+    [self.croppedImages exchangeObjectAtIndex:sourceIndexPath.item withObjectAtIndex:destinationIndexPath.item];
+    [self.collectionView reloadData];
 }
 
 -(void)clickBtn{
@@ -114,6 +200,8 @@
         imageCropVC.delegate = self;
         [self.navigationController pushViewController:imageCropVC animated:NO];
         [self.images removeObjectAtIndex:0];
+    }else{
+        [self.collectionView reloadData];
     }
 }
 

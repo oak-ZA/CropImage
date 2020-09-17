@@ -40,6 +40,8 @@
 		65156213251358900007C63F /* UIImage+RSKImageCropper.m in Sources */ = {isa = PBXBuildFile; fileRef = 651561EE251358900007C63F /* UIImage+RSKImageCropper.m */; };
 		65156214251358910007C63F /* RSKImageCropperStrings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 651561F3251358900007C63F /* RSKImageCropperStrings.bundle */; };
 		65156215251358910007C63F /* RSKImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 651561F9251358900007C63F /* RSKImageScrollView.m */; };
+		651562192513714A0007C63F /* CustomCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 651562172513714A0007C63F /* CustomCollectionViewCell.m */; };
+		6515621A2513714A0007C63F /* CustomCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 651562182513714A0007C63F /* CustomCollectionViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,6 +129,9 @@
 		651561F7251358900007C63F /* UIApplication+RSKImageCropper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+RSKImageCropper.h"; sourceTree = "<group>"; };
 		651561F8251358900007C63F /* RSKImageCropper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSKImageCropper.h; sourceTree = "<group>"; };
 		651561F9251358900007C63F /* RSKImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSKImageScrollView.m; sourceTree = "<group>"; };
+		651562162513714A0007C63F /* CustomCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomCollectionViewCell.h; sourceTree = "<group>"; };
+		651562172513714A0007C63F /* CustomCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomCollectionViewCell.m; sourceTree = "<group>"; };
+		651562182513714A0007C63F /* CustomCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCollectionViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +190,9 @@
 				6515618F2513518D0007C63F /* SceneDelegate.m */,
 				651561912513518D0007C63F /* ViewController.h */,
 				651561922513518D0007C63F /* ViewController.m */,
+				651562162513714A0007C63F /* CustomCollectionViewCell.h */,
+				651562172513714A0007C63F /* CustomCollectionViewCell.m */,
+				651562182513714A0007C63F /* CustomCollectionViewCell.xib */,
 				651561942513518D0007C63F /* Main.storyboard */,
 				65156197251351920007C63F /* Assets.xcassets */,
 				65156199251351920007C63F /* LaunchScreen.storyboard */,
@@ -381,6 +389,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6515619B251351920007C63F /* LaunchScreen.storyboard in Resources */,
+				6515621A2513714A0007C63F /* CustomCollectionViewCell.xib in Resources */,
 				65156198251351920007C63F /* Assets.xcassets in Resources */,
 				65156214251358910007C63F /* RSKImageCropperStrings.bundle in Resources */,
 				65156202251358900007C63F /* TZImagePickerController.bundle in Resources */,
@@ -424,6 +433,7 @@
 				65156209251358900007C63F /* TZGifPhotoPreviewController.m in Sources */,
 				6515620F251358900007C63F /* RSKInternalUtility.m in Sources */,
 				65156213251358900007C63F /* UIImage+RSKImageCropper.m in Sources */,
+				651562192513714A0007C63F /* CustomCollectionViewCell.m in Sources */,
 				65156208251358900007C63F /* TZLocationManager.m in Sources */,
 				65156203251358900007C63F /* TZProgressView.m in Sources */,
 				6515618D2513518D0007C63F /* AppDelegate.m in Sources */,
